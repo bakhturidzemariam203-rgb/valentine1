@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Be My Valentine ❤️</title>
+<style>
+body{margin:0;height:100vh;background:#ff4b6e;font-family:Arial;text-align:center;color:#fff;overflow:hidden}
+h1{margin-top:80px;font-size:3rem}
+button{padding:15px 35px;font-size:1.3rem;margin:20px;border:none;border-radius:30px;cursor:pointer}
+#yes{background:#fff;color:#e91e63}
+#no{background:#333;color:#fff}
+.heart{position:absolute;bottom:-20px;font-size:24px;animation:up 6s linear infinite}
+@keyframes up{to{transform:translateY(-100vh);opacity:0}}
+canvas{position:fixed;inset:0;pointer-events:none}
+</style>
+</head>
+<body>
+
+<h1>Will you be my Valentine? ❤️</h1>
+<button id="yes">YES 💖</button>
+<button id="no">NO 😢</button>
+<div id="msg"></div>
+<canvas id="fx"></canvas>
+
+<iframe width="0" height="0"
+src="https://www.youtube.com/embed/0CqU5XrO4e8?autoplay=1&loop=1&playlist=0CqU5XrO4e8"
+allow="autoplay"></iframe>
+
+<script>
+const yes=document.getElementById("yes");
+const no=document.getElementById("no");
+const msg=document.getElementById("msg");
+
+yes.onclick=()=>{
+ msg.innerHTML="<h2>YOU SAID YES 💘</h2>";
+ hearts(); fireworks();
+};
+no.onclick=()=>msg.innerHTML="<h2>💔 I'm sad...</h2>";
+
+function hearts(){
+ setInterval(()=>{
+  const h=document.createElement("div");
+  h.className="heart";
+  h.innerHTML="❤️";
+  h.style.left=Math.random()*100+"vw";
+  document.body.appendChild(h);
+  setTimeout(()=>h.remove(),6000);
+ },300);
+}
+
+function fireworks(){
+ const c=document.getElementById("fx"),x=c.getContext("2d");
+ c.width=innerWidth;c.height=innerHeight;
+ let p=[];
+ c.onclick=e=>{
+  for(let i=0;i<50;i++)
+   p.push({x:e.x,y:e.y,vx:Math.random()*6-3,vy:Math.random()*6-3,l:60});
+ };
+ (function a(){
+  x.fillStyle="rgba(0,0,0,.2)";
+  x.fillRect(0,0,c.width,c.height);
+  p.forEach((o,i)=>{
+   o.x+=o.vx;o.y+=o.vy;o.l--;
+   x.fillRect(o.x,o.y,3,3);
+   if(o.l<0)p.splice(i,1);
+  });
+  requestAnimationFrame(a);
+ })();
+}
+</script>
+</body>
+</html>
